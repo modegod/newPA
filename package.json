@@ -1,0 +1,35 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap && npm run build:proto",
+    "build:proto": "npm --prefix packages/proto run build",
+    "build": "npm --prefix packages/frontend run build && npm --prefix packages/backend run build",
+    "lint": "npm --prefix packages/frontend run lint && npm --prefix packages/backend run lint",
+    "test": "npm --prefix packages/proto test && npm --prefix packages/frontend test && npm --prefix packages/backend test",
+    "proto": "cp -R proto/* packages/backend/proto && cp -R proto/* packages/frontend/proto",
+    "reset:db": "docker volume rm proavalon_mongo_data proavalon_redis_data",
+    "test:int": "npm run redis-test:start && npm run redis-test:stop",
+    "test:int:circleci": "npm run redis-test:start:circleci && npm run redis-test:stop:circleci",
+    "test:int:run": "npm --prefix packages/backend run test:int:run",
+    "test:int:rebuild": "docker-compose -f docker-compose-testing.yml build --no-cache",
+    "redis-test:start": "npm run redis-test:stop && printf \"\n*** If the integration tests failed, try running npm run test:int:rebuild. ***\n\n\" && docker-compose -f docker-compose-testing.yml up --exit-code-from backend-testing",
+    "redis-test:start:circleci": "npm run redis-test:stop && docker-compose -f docker-compose-testing-circleci.yml up --abort-on-container-exit",
+    "redis-test:stop": "docker-compose -f docker-compose-testing.yml down -v",
+    "redis-test:stop:circleci": "docker-compose -f docker-compose-testing-circleci.yml down -v"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit && npm run test && npm run test:int"
+    }
+  },
+  "dependencies": {
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.12.1",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "lerna": "^3.20.2"
+  }
+}

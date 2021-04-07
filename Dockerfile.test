@@ -1,0 +1,16 @@
+FROM node:13
+
+# Setting working directory. All the path will be relative to WORKDIR
+WORKDIR /usr/src/app
+
+# Copy over required files
+# For now copy everything. Can optimise this by not copying frontend since 
+# there are no integration tests for it.
+COPY ./ ./
+
+# Install packages
+RUN npm i
+RUN npm run bootstrap
+
+# Dev mode
+CMD [ "npm", "run", "test:int:run" ]

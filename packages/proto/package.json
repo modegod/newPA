@@ -1,0 +1,44 @@
+{
+  "name": "@proavalon/proto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --passWithNoTests",
+    "build": "tsc",
+    "clean": "rm *.js *.d.ts *.js.map tsconfig.tsbuildinfo"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/jest": "^25.2.3",
+    "class-transformer": "^0.2.3",
+    "class-transformer-validator": "^0.8.0",
+    "class-validator": "^0.12.2",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "ts-jest": "^26.0.0",
+    "typescript": "^3.9.2"
+  },
+  "private": true,
+  "files": [
+    "./*.js",
+    "./*.d.ts"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": "\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
